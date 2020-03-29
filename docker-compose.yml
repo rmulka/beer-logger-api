@@ -1,0 +1,12 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=drinklogger
+      - POSTGRES_USER=drinkloguser
+      - POSTGRES_PASSWORD=development
+    ports:
+      - 5432:5432
+    volumes:
+      - ./src/main/resources/sql/baseline.sql:/docker-entrypoint-initdb.d/baseline.sql

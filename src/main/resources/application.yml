@@ -1,0 +1,41 @@
+server:
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 2048
+  servlet:
+    context-path: /
+management:
+  endpoint:
+    health:
+      show-details: always
+
+spring:
+  profiles:
+    active: local
+  jackson:
+    time-zone: America/Chicago
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        generate_statistics: false
+        ddl-auto: validate
+        jdbc:
+          batch_size: 200
+          fetch_size: 200
+          new_generator_mappings: true
+          order_inserts: true
+          order_updates: true
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/drinklogger
+    username: drinkloguser
+    password: development
+    driverClassName: org.postgresql.Driver
+---
+
+spring:
+  profiles: local
+  jpa:
+    show-sql: true
