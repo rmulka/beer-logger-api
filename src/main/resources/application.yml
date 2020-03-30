@@ -27,6 +27,8 @@ spring:
           new_generator_mappings: true
           order_inserts: true
           order_updates: true
+  batch:
+    initialize-schema: always
   datasource:
     platform: postgres
     url: jdbc:postgresql://localhost:5432/drinklogger
