@@ -1,41 +1,31 @@
 package com.ryan.drinklogger.config
 
-import com.ryan.drinklogger.constants.USERS_URI
+import com.ryan.drinklogger.constants.BCRYPT_STRENGTH
+import com.ryan.drinklogger.constants.GET_PATTERNS
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.crypto.password.PasswordEncoder
-import javax.sql.DataSource
-
 
 @Configuration
 @EnableWebSecurity
-class WebSecurityConfig(private val dataSource: DataSource): WebSecurityConfigurerAdapter() {
+class WebSecurityConfig: WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
         http
-                .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/public/**").permitAll()
-                .antMatchers(HttpMethod.POST, "$USERS_URI/register", "$USERS_URI/login", "$USERS_URI/logout").permitAll()
-                .anyRequest().authenticated()
+                .cors()
                 .and()
-                .httpBasic()
-    }
-
-    override fun configure(auth: AuthenticationManagerBuilder) {
-        auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery("select username, password, enabled from users where username=?")
-                .authoritiesByUsernameQuery("select username, authority from authorities where username=?")
-                .passwordEncoder(passwordEncoder())
+                .authorizeRequests()
+                .antMatchers(HttpMethod.GET, *GET_PATTERNS).hasAuthority("SCOPE_read")
+                .anyRequest().hasAuthority("SCOPE_write")
+                .and()
+                .oauth2ResourceServer()
+                .jwt()
     }
 
     @Bean
-    fun passwordEncoder(): PasswordEncoder {
-        return BCryptPasswordEncoder(12)
-    }
+    fun passwordEncoder(): BCryptPasswordEncoder = BCryptPasswordEncoder(BCRYPT_STRENGTH)
 }

@@ -5,10 +5,6 @@ server:
     min-response-size: 2048
   servlet:
     context-path: /
-management:
-  endpoint:
-    health:
-      show-details: always
 
 spring:
   profiles:
@@ -20,13 +16,20 @@ spring:
     properties:
       hibernate:
         generate_statistics: false
-        ddl-auto: validate
+        ddl-auto: update
         jdbc:
           batch_size: 200
           fetch_size: 200
           new_generator_mappings: true
           order_inserts: true
           order_updates: true
+    generate-ddl: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+#          issuer-uri: http://localhost:8081/auth/realms/drinklogger
+          jwk-set-uri: http://localhost:8081/auth/realms/drinklogger/protocol/openid-connect/certs
   batch:
     initialize-schema: always
   datasource:

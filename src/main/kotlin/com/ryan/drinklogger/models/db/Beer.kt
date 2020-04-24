@@ -8,38 +8,38 @@ data class Beer (
 
         @Id
         @Column(name = "id")
-        var id: Int,
+        val id: Int,
 
         @Column(name = "name")
-        var name: String,
+        val name: String,
 
         @Column(name = "brewer")
-        var brewer: String?,
+        val brewer: String?,
 
         @Column(name = "style")
-        var style: String?,
+        val style: String?,
 
         @Column(name = "category")
-        var category: String?,
+        val category: String?,
 
         @Column(name = "city")
-        var city: String?,
+        val city: String?,
 
         @Column(name = "state")
-        var state: String?,
+        val state: String?,
 
         @Column(name = "country")
-        var country: String?,
+        val country: String?,
 
         @Column(name = "website")
-        var website: String?,
+        val website: String?,
 
         @Column(name = "abv")
-        var abv: String?,
+        val abv: String?,
 
         @Column(name = "ibu")
-        var ibu: String?,
+        val ibu: String?,
 
-        @Column(name = "description")
-        var description: String?
+        @Column(name = "description", length = 8192)
+        val description: String?
 )

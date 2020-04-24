@@ -8,5 +8,5 @@ services:
       - POSTGRES_PASSWORD=development
     ports:
       - 5432:5432
-    volumes:
-      - ./src/main/resources/sql/baseline.sql:/docker-entrypoint-initdb.d/baseline.sql
+#    volumes:
+#      - ./src/main/resources/sql/baseline.sql:/docker-entrypoint-initdb.d/baseline.sql
